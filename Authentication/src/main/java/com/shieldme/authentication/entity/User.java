@@ -3,8 +3,6 @@ package com.shieldme.authentication.entity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.OneToOne;
-
 @Document(collection = "users")
 public class User {
 
@@ -17,29 +15,25 @@ public class User {
 
     private String password;
 
-    private String profileImage; // Base64
+    private final String profileImage; // Base64
 
-    private Role role; // "ADMIN", "USER", "MODERATOR"
+    private final Role role; // "ADMIN", "USER", "MODERATOR"
 
-    public User() {
-        this.role = Role.USER; // Default to "USER"
-    }
-
-    public User(String userId, String name, String email, String password, String profileImage, Role role) {
+    public User(String userId, String profileImage) {
         this.userId = userId;
-        this.name = name;
-        this.email = email;
-        this.password = password;
         this.profileImage = profileImage;
         this.role = Role.USER; // Default to "USER"
     }
 
-    public String getUserId() {
-        return userId;
+    public User(String profileImage, Role role) {
+
+
+        this.profileImage = profileImage;
+        this.role = role;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public String getUserId() {
+        return userId;
     }
 
     public String getName() {
@@ -70,18 +64,6 @@ public class User {
         return profileImage;
     }
 
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
     @Override
     public String toString() {
         return "User{" +
@@ -94,7 +76,7 @@ public class User {
                 '}';
     }
 
-@OneToOne(mappedBy = "user")
-    private ForgotPassword forgotPassword;
+    public String getId() {
+        return getId();
+    }
 }
-

@@ -1,57 +1,38 @@
 package com.shieldme.authentication.entity;
 
-
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.util.Date;
 
-@Entity
+@Data
+@Document(collection = "forgot_password") // Annotation to define MongoDB collection
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Builder
-
-
-
-
 public class ForgotPassword {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id // Annotation for the unique identifier in MongoDB
+    private String id;
 
-    private Integer fpid;
-
-@Column(nullable = false)
-    private Integer otp;
-
-@Column(nullable = false)
     private Date expirationTime;
 
-
-    @OneToOne
+    @DBRef // Reference to another MongoDB document (User document)
     private User user;
 
-
+    // Remove the explicit no-args constructor here as Lombok already provides it
+    // public ForgotPassword() {
+    // }
 
     // Getters and setters
-    public Integer getFpid() {
-        return fpid;
+    public String getId() {
+        return id;
     }
 
-    public void setFpid(Integer fpid) {
-        this.fpid = fpid;
-    }
-
-    public Integer getOtp() {
-        return otp;
-    }
-
-    public void setOtp(Integer otp) {
-        this.otp = otp;
+    public void setOtp() {
     }
 
     public Date getExpirationTime() {
@@ -75,17 +56,11 @@ public class ForgotPassword {
         return new Builder();
     }
 
-    public Integer getfpid() {
-        return getFpid();
-    }
-
     public static class Builder {
-        private Integer otp;
         private Date expirationTime;
         private User user;
 
-        public Builder otp(Integer otp) {
-            this.otp = otp;
+        public Builder otp(int otp) {
             return this;
         }
 
@@ -101,19 +76,14 @@ public class ForgotPassword {
 
         public ForgotPassword build() {
             ForgotPassword forgotPassword = new ForgotPassword();
-            forgotPassword.setOtp(otp);
+            forgotPassword.setOtp();
             forgotPassword.setExpirationTime(expirationTime);
             forgotPassword.setUser(user);
             return forgotPassword;
         }
+
+        public Builder userId(String id) {
+            return userId(id);
+        }
     }
-
-
-
-
-
 }
-
-
-
-
